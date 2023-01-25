@@ -1,0 +1,125 @@
+.appointment-content {
+  & * {
+    box-sizing: border-box;
+  }
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto;
+  border: 1px solid hsl(255, 3.7%, 78.8%);
+  border-radius: 0.3rem;
+}
+
+.appointment {
+  background-color: hsl(208, 100%, 47.3%);
+  color: hsl(300, 20%, 99%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.3rem;
+  width: 100%;
+  padding: 0.5rem;
+  &__time {
+    font-size: 1rem;
+    width: 100%;
+  }
+
+  &--enabled {
+    cursor: pointer;
+    &:hover {
+      background-color: hsl(206, 100%, 50%);
+    }
+  }
+
+  &--selected {
+    cursor: pointer;
+    background-color: hsl(131, 41%, 46.5%);
+  }
+
+  &--reserved {
+    cursor: not-allowed;
+    background-color: hsl(278, 4.1%, 89.1%);
+    color: hsl(252, 4%, 57.3%);
+  }
+}
+
+.blank {
+  height: 2.5rem;
+  width: 100%;
+  padding: 0.5rem;
+}
+
+.loader {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  background: rgba(240, 240, 240, 0.9);
+  z-index: "2";
+  justify-content: center;
+  align-items: center;
+}
+
+.appointment-picker {
+  display: flex;
+  flex-direction: row;
+
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.appointment-picker__col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 0.2rem;
+  padding: 0.5rem;
+  flex-grow: 1;
+
+  & + & {
+    border-left: 1px solid hsl(278, 4.1%, 89.1%);
+  }
+
+  &__name {
+    font-weight: normal;
+    height: 2.5rem;
+    // width: 7rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: hsl(260, 25%, 11%);
+    border-radius: 0.3rem;
+
+    padding: 0.5rem;
+  }
+
+  &--enabled {
+    &:hover {
+      background-color: hsl(294, 5.5%, 95.3%);
+    }
+  }
+
+  &--selected {
+    background-color: hsl(294, 5.5%, 95.3%);
+  }
+
+  &--enabled:hover > &__number {
+    font-weight: 600;
+  }
+
+  &--selected > &__number {
+    font-weight: 600;
+  }
+}
+
+body {
+  font-family: "Inter";
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
+}
