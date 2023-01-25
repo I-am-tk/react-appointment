@@ -1,6 +1,6 @@
-# Using the component
+# AppointmentPicker
 
-## AppointmentPicker
+An example to use the component can be found in `App.tsx`
 
 ### Props
 
