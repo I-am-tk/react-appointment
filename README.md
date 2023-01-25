@@ -1,30 +1,37 @@
-# Getting Started with Create React App
+# Using the component
 
-This project was bootstrapped with [Create Vite App](https://vitejs.dev/guide/).
+## AppointmentPicker
 
-## Available Scripts
+### Props
 
-In the project directory, you can run:
+- `days`: Should be 2d array. Array will have arrays of slots for all days;
+- `addAppointmentCallback`: It accepts a callback function which gets called when
+  any slot is clicked. The callback function will get two args. Find the example below.
 
-### `npm run dev`
+  ```js
+  const addAppointmentCallback = ({
+    addedAppointment: { day, number, time, id },
+    addCb,
+  }: SimpleAddCaseInterface): void => {
+    addCb(day, number, time, id);
+  };
+  ```
 
-Runs the app in the development mode.\
-Open [http://localhost:5173](http://localhost:5173) to view it in the browser.
+- `removeAppointmentCallback`: Removes the appointment ;
+- `maxReservableAppointments`: Maximum number of appointments that can be reserved by a person;
+- `initialDay`: Starting date of the week;
+- `unitTime`: Change the slot interval;
+- `className`: To override default styles.
 
-The page will reload if you make edits.\
+## Files need to be copied
 
-### `npm run build`
+- components/AppointmentPicker/Appointment.tsx
+- components/AppointmentPicker/AppointmentPicker.tsx
+- components/AppointmentPicker/Blank.tsx
+- components/AppointmentPicker/Day.tsx
+- components/AppointmentPicker/DayNumber.tsx
+- components/AppointmentPicker/index.scss
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Todo
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://vitejs.dev/guide/static-deploy.html) for more information.
-
-## Learn More
-
-You can learn more in the [Vite documentation](https://vitejs.dev/).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- AppointmentPickerWrapper (work in progress 🟠)
