@@ -119,7 +119,6 @@ export default function App() {
       <AppointmentPickerWrapper
         addAppointmentCallback={addAppointmentCallback}
         removeAppointmentCallback={removeAppointmentCallback}
-        initialDay={new Date("2018-05-05")}
         days={days}
         maxReservableAppointments={3}
       />

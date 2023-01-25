@@ -22,7 +22,7 @@ function dayOfWeekAsString(dayIndex: number) {
 }
 
 interface AppointmentPickerWrapperInterface
-  extends AppointmentPickerPropsInterface {}
+  extends Omit<AppointmentPickerPropsInterface, "days"> {}
 export default function AppointmentPickerWrapper(
   props: AppointmentPickerWrapperInterface
 ) {
@@ -31,30 +31,37 @@ export default function AppointmentPickerWrapper(
   //  - it will have the start and end time
   const appointments = [
     {
+      type: "reserved",
       startTime: new Date(2023, 1, 19, 6, 30),
       endTime: new Date(2023, 1, 19, 6, 45),
     },
     {
+      type: "reserved",
       startTime: new Date(2023, 1, 20, 7, 0),
       endTime: new Date(2023, 1, 20, 7, 15),
     },
     {
+      type: "reserved",
       startTime: new Date(2023, 1, 21, 7, 0),
       endTime: new Date(2023, 1, 21, 7, 15),
     },
     {
+      type: "reserved",
       startTime: new Date(2023, 1, 22, 10, 15),
       endTime: new Date(2023, 1, 22, 10, 45),
     },
     {
+      type: "reserved",
       startTime: new Date(2023, 1, 23, 9, 0),
       endTime: new Date(2023, 1, 23, 9, 15),
     },
     {
+      type: "reserved",
       startTime: new Date(2023, 1, 24, 10, 15),
       endTime: new Date(2023, 1, 24, 10, 45),
     },
     {
+      type: "reserved",
       startTime: new Date(2023, 1, 25, 9, 0),
       endTime: new Date(2023, 1, 25, 9, 15),
     },
@@ -93,35 +100,71 @@ export default function AppointmentPickerWrapper(
     },
   ];
 
-  const slotsByDay = new Map<typeof dayStrings[number], any>();
+  const slotsByDate = new Map<string, any>();
 
   // Adding all the appointments
   appointments.forEach((appointment) => {
-    const dayString = dayOfWeekAsString(appointment.startTime.getDay());
-    if (slotsByDay.has(dayString)) {
-      slotsByDay.get(dayString).push(appointment);
+    const date = appointment.startTime;
+    const dateKey = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDay()
+    ).toString();
+    if (slotsByDate.has(dateKey)) {
+      slotsByDate.get(dateKey).push(appointment);
     } else {
-      slotsByDay.set(dayString, [appointment]);
+      slotsByDate.set(dateKey, [appointment]);
     }
   });
 
   // Adding all the available slots
   availableSlots.forEach((availableSlot) => {
-    const dayString = dayOfWeekAsString(availableSlot.startTime.getDay());
-    if (slotsByDay.has(dayString)) {
-      slotsByDay.get(dayString).push(availableSlot);
+    const date = availableSlot.startTime;
+    const dateKey = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDay()
+    ).toString();
+    if (slotsByDate.has(dateKey)) {
+      slotsByDate.get(dateKey).push(availableSlot);
     } else {
-      slotsByDay.set(dayString, [availableSlot]);
+      slotsByDate.set(dateKey, [availableSlot]);
     }
   });
 
-  const days: AppointmentAttributesType[][] = [];
+  // console.log({ slotsByDate });
 
-  for (const [key, value] of slotsByDay.entries()) {
-    days.push(value);
-  }
+  const slots: AppointmentAttributesType[][] = [];
 
-  console.log(days);
+  const sortedDates = [...slotsByDate.keys()].sort(
+    (date1: string, date2: string) => new Date(date1) - new Date(date2)
+  );
+
+  console.log({ sortedDates });
+
+  const startDate = new Date([...sortedDates.keys()][0]);
+  let totalSlot = 0;
+  let slotPerDayCount = 0;
+  sortedDates.forEach((date) => {
+    // console.log({ date });
+    slotPerDayCount = 0;
+    const slotsForDate = slotsByDate.get(date) as any[];
+    // console.log({ slotsForDate });
+    const formattedSlots: AppointmentAttributesType[] = [];
+    slotsForDate.forEach((slot) => {
+      totalSlot++;
+      slotPerDayCount++;
+      const isReserved = slot.type === "reserved" ?? false;
+      const formattedSlot = {
+        id: totalSlot,
+        number: slotPerDayCount,
+        isReserved,
+      };
+      formattedSlots.push(formattedSlot);
+    });
+    slots.push(formattedSlots);
+  });
+  console.log({ startDate });
 
   return <AppointmentPicker {...props} />;
 }

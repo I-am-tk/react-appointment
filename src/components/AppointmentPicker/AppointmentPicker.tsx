@@ -346,6 +346,7 @@ const AppointmentPicker = ({
         : actualDay.toLocaleDateString(local);
 
       const isSelected = !!selectedAppointments.get(dayNumber);
+      console.log({ dayNumber });
       const props = {
         visible,
         dayNumber,
